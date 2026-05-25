@@ -1,0 +1,40 @@
+{
+  "name": "Speed-to-Lead SA - Core Intake Template",
+  "version": "1.0",
+  "description": "Pseudo-import template showing module order and mapping keys for quick manual build in Make.com.",
+  "scenarios": [
+    {
+      "key": "scenario_a_intake",
+      "name": "Intake -> Log -> Owner Alert",
+      "modules": [
+        {"id": 1, "app": "google-forms", "action": "watchResponses"},
+        {"id": 2, "app": "tools", "action": "setVariables", "vars": ["created_at_utc", "source"]},
+        {"id": 3, "app": "tools", "action": "normalizePhone"},
+        {"id": 4, "app": "google-sheets", "action": "searchRows", "purpose": "dedupe_4h"},
+        {"id": 5, "app": "router", "action": "branch_duplicate_or_insert"},
+        {"id": 6, "app": "google-sheets", "action": "addRow", "sheet": "Lead Log"},
+        {"id": 7, "app": "gmail", "action": "sendEmail", "template": "owner_alert"},
+        {"id": 8, "app": "google-sheets", "action": "updateRow", "field": "Automation Health"}
+      ],
+      "mapping": {
+        "Lead Name": "form.full_name",
+        "Phone (raw)": "form.phone_number",
+        "Phone (normalized)": "tools.normalized_phone",
+        "Service Needed": "form.service_needed",
+        "Area/Suburb": "form.suburb_area",
+        "Message": "form.message_details",
+        "Budget": "form.budget"
+      }
+    },
+    {
+      "key": "scenario_b_ack",
+      "name": "Instant Acknowledgement",
+      "modules": [
+        {"id": 1, "app": "google-sheets", "action": "watchNewRows"},
+        {"id": 2, "app": "router", "action": "business_hours_split"},
+        {"id": 3, "app": "whatsapp_or_email", "action": "sendTemplate"},
+        {"id": 4, "app": "google-sheets", "action": "updateRow", "field": "Notes"}
+      ]
+    }
+  ]
+}
