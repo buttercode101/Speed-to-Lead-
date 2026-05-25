@@ -1,0 +1,9 @@
+{
+  "business_name": "CapeFix Plumbing",
+  "owner_email": "owner@capefix.co.za",
+  "admin_email": "ops@capefix.co.za",
+  "primary_contact": "+27821234567",
+  "backup_contact": "+27831234567",
+  "response_sla_minutes": 5,
+  "operator_packet": "generated/capefix-plumbing-operator-packet.md"
+}
