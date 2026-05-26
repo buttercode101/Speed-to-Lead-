@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speed-to-Lead Dashboard</title>
+  <style>
+    :root { --bg:#0b1020; --card:#121a33; --text:#e9eefc; --muted:#9fb0d9; --ok:#1ecb7b; --warn:#f5b83d; --bad:#ff5e7a; }
+    * { box-sizing:border-box; font-family: Inter, Arial, sans-serif; }
+    body { margin:0; background:linear-gradient(180deg,#0b1020,#0f1630); color:var(--text); }
+    .wrap { max-width:1100px; margin:0 auto; padding:28px 16px 40px; }
+    .top { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:center; }
+    .title h1{ margin:0; font-size:28px; }
+    .title p{ margin:6px 0 0; color:var(--muted); }
+    .pill { background:#1b264a; padding:8px 12px; border-radius:999px; color:var(--muted); font-size:13px; }
+    .grid { margin-top:20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; }
+    .card { background:var(--card); border:1px solid #25345f; border-radius:14px; padding:16px; }
+    .label { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.06em; }
+    .value { font-size:28px; font-weight:700; margin-top:8px; }
+    .delta { margin-top:6px; font-size:13px; }
+    .ok{ color:var(--ok);} .warn{ color:var(--warn);} .bad{ color:var(--bad);}
+    table { width:100%; border-collapse:collapse; margin-top:12px; }
+    th,td { padding:10px; border-bottom:1px solid #273a6b; text-align:left; font-size:14px; }
+    th { color:var(--muted); font-weight:600; }
+    .section { margin-top:24px; }
+    .actions a { color:#9cc3ff; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="title">
+        <h1>Dental Intake Dashboard</h1>
+        <p>Live visibility into lead response performance and revenue capture.</p>
+      </div>
+      <div class="pill" id="updatedAt">Updated: --</div>
+    </div>
+
+    <div class="grid" id="kpiGrid"></div>
+
+    <div class="section card">
+      <div class="label">Pipeline Snapshot</div>
+      <table>
+        <thead>
+          <tr><th>Status</th><th>Count</th><th>Action</th></tr>
+        </thead>
+        <tbody id="pipeline"></tbody>
+      </table>
+    </div>
+
+    <div class="section card">
+      <div class="label">Immediate Actions</div>
+      <table>
+        <thead>
+          <tr><th>Priority</th><th>Task</th><th>Owner</th><th>Due</th></tr>
+        </thead>
+        <tbody id="actions"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Replace this demo payload with real API/Sheet data later.
+    const data = {
+      updatedAt: new Date().toLocaleString(),
+      kpis: [
+        { label: 'Total Leads (7d)', value: 124, delta: '+12% vs prev', tone: 'ok' },
+        { label: 'Contact Rate', value: '84%', delta: 'Target 80%', tone: 'ok' },
+        { label: 'Close Rate', value: '21%', delta: 'Target 20%', tone: 'ok' },
+        { label: 'Median Response', value: '4.2m', delta: 'Target <= 5m', tone: 'ok' },
+        { label: 'SLA Met', value: '87%', delta: 'Target 85%', tone: 'ok' },
+        { label: 'Missed Leads', value: 3, delta: 'Needs follow-up', tone: 'warn' }
+      ],
+      pipeline: [
+        ['New', 6, 'Call within SLA'],
+        ['Contacted', 18, 'Qualify budget/timeline'],
+        ['Qualified', 14, 'Send quotes'],
+        ['Quoted', 9, 'Follow-up in 24h'],
+        ['Closed', 26, 'Request testimonial'],
+        ['Lost', 7, 'Review reasons']
+      ],
+      actions: [
+        ['High', 'Contact 3 leads older than 15 minutes', 'Owner', 'Today 16:00'],
+        ['Medium', 'Follow up all quoted leads >24h', 'Sales Rep', 'Tomorrow 10:00'],
+        ['Low', 'Review top loss reason this week', 'Manager', 'Friday 15:00']
+      ]
+    };
+
+    document.getElementById('updatedAt').textContent = `Updated: ${data.updatedAt}`;
+
+    const kpiGrid = document.getElementById('kpiGrid');
+    data.kpis.forEach(k => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<div class="label">${k.label}</div><div class="value">${k.value}</div><div class="delta ${k.tone}">${k.delta}</div>`;
+      kpiGrid.appendChild(card);
+    });
+
+    const pipeline = document.getElementById('pipeline');
+    data.pipeline.forEach(r => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td>`;
+      pipeline.appendChild(tr);
+    });
+
+    const actions = document.getElementById('actions');
+    data.actions.forEach(r => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td>`;
+      actions.appendChild(tr);
+    });
+  </script>
+</body>
+</html>
