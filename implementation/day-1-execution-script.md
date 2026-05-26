@@ -149,17 +149,6 @@ Archive in your folder:
 
 ---
 
-
-## 11) Build Client Dashboard (4 min)
-1. Add Apps Script file from `implementation/dashboard-bootstrap.js`.
-2. Run `createDashboard()` once.
-3. Confirm Dashboard tab appears with KPI values.
-4. Share Dashboard tab view-only with client stakeholders.
-
-Checkpoint:
-- Dashboard shows Total Leads, Contact Rate, Close Rate, Median Response, SLA Met.
-
----
 ## Red-line rules (non-negotiable)
 - Never go live before duplicate test passes.
 - Never go live before escalation trigger is confirmed.
