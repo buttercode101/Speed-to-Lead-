@@ -1,6 +1,6 @@
-# Speed-to-Lead SA — Revenue Capture System (V2)
+# Speed-to-Lead SA — Project 2 Revenue Capture System (V2)
 
-**Project Name:** Speed-to-Lead SA  
+**Project Name:** Speed-to-Lead SA - Project 2 (Real Estate Acceleration)  
 **Version:** V2.0 (Productized Offer)  
 **Creator:** Solo Builder  
 **Primary Market:** South Africa (Cape Town first, national next)  
@@ -32,13 +32,11 @@ So this business must sell a **Revenue Capture System**, not “automation setup
 ## 2) Ideal Customer Profile (ICP)
 
 ### Best-fit sectors
-- Plumbing
-- Electrical
-- Panel beating / auto repair
-- Real estate teams
-- Dentists & clinics
-- Home services (cleaning, security, HVAC)
-- Coaching/consulting businesses with inbound leads
+- Real estate agencies
+- Independent property practitioners
+- Property management teams
+- Bond originator partners
+- New development sales teams
 
 ### Best-fit business profile
 - 20–300 inbound leads/month
@@ -337,7 +335,16 @@ Use a “traffic light” style:
 
 ---
 
-## 16) What Makes This Hard to Refuse
+## 16) Real Estate Specialization Layer
+
+- Track enquiry type: Buy / Rent / Sell / Valuation
+- Track property type and budget range
+- Route hot buyer/renter leads to available agent
+- Measure viewing-booking rate and offer rate
+
+---
+
+## 17) What Makes This Hard to Refuse
 
 A business can refuse “automation setup.”
 It is much harder to refuse:
@@ -350,7 +357,7 @@ So always sell outcome + accountability, not tools.
 
 ---
 
-## 17) Next Build Artifacts to Create
+## 18) Next Build Artifacts to Create
 
 1. Client proposal template
 2. ROI calculator sheet

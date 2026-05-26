@@ -1,6 +1,6 @@
-# Speed-to-Lead SA — Revenue Capture System (V2)
+# Speed-to-Lead SA — Project 3 Revenue Capture System (V2)
 
-**Project Name:** Speed-to-Lead SA  
+**Project Name:** Speed-to-Lead SA - Project 3 (Dental & Clinic Intake)  
 **Version:** V2.0 (Productized Offer)  
 **Creator:** Solo Builder  
 **Primary Market:** South Africa (Cape Town first, national next)  
@@ -32,13 +32,11 @@ So this business must sell a **Revenue Capture System**, not “automation setup
 ## 2) Ideal Customer Profile (ICP)
 
 ### Best-fit sectors
-- Plumbing
-- Electrical
-- Panel beating / auto repair
-- Real estate teams
-- Dentists & clinics
-- Home services (cleaning, security, HVAC)
-- Coaching/consulting businesses with inbound leads
+- Dental practices
+- Orthodontic clinics
+- Aesthetic dental centers
+- Multi-branch clinic groups
+- Day procedure practices
 
 ### Best-fit business profile
 - 20–300 inbound leads/month
@@ -337,7 +335,16 @@ Use a “traffic light” style:
 
 ---
 
-## 16) What Makes This Hard to Refuse
+## 16) Clinic Specialization Layer
+
+- Track treatment intent: emergency / cleaning / ortho / implants / cosmetic
+- Track preferred appointment window and medical-aid self-pay flag
+- Route urgent pain cases to immediate callback queue
+- Measure booking rate and appointment show-up rate
+
+---
+
+## 17) What Makes This Hard to Refuse
 
 A business can refuse “automation setup.”
 It is much harder to refuse:
@@ -350,7 +357,7 @@ So always sell outcome + accountability, not tools.
 
 ---
 
-## 17) Next Build Artifacts to Create
+## 18) Next Build Artifacts to Create
 
 1. Client proposal template
 2. ROI calculator sheet

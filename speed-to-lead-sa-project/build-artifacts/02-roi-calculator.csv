@@ -1,0 +1,15 @@
+Metric,Input,Example,Formula,Notes
+Monthly inbound leads,,120,,Count of inbound inquiries/month
+Current contact rate (%),,55,,% of leads contacted currently
+Target contact rate (%),,85,,Expected after system
+Current close rate (% of contacted),,22,,Baseline conversion
+Target close rate (% of contacted),,28,,Post-improvement estimate
+Average job value (ZAR),,4500,,Average revenue per closed job
+Gross margin (%),,45,,Optional margin tracking
+Extra contacted leads,,36,=(Target contact rate-Current contact rate)*Monthly inbound leads,
+Current closed jobs,,15,=Monthly leads*Current contact rate*Current close rate,
+Projected closed jobs,,29,=Monthly leads*Target contact rate*Target close rate,
+Extra closed jobs,,14,=Projected closed jobs-Current closed jobs,
+Extra monthly revenue (ZAR),,63000,=Extra closed jobs*Average job value,
+Extra monthly gross margin (ZAR),,28350,=Extra monthly revenue*Gross margin,
+Setup fee payback (months),,0.30,=Setup fee/Extra monthly gross margin,If margin used
