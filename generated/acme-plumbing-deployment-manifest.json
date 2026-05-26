@@ -1,0 +1,13 @@
+{
+  "client": "Acme Plumbing",
+  "created_files": [
+    "generated/acme-plumbing-lead-log-template.csv",
+    "generated/acme-plumbing-google-apps-script.js"
+  ],
+  "next_steps": [
+    "Import lead-log-template.csv into Google Sheets",
+    "Paste generated Apps Script and run install()",
+    "Build Make scenario using implementation/make-import-template.json",
+    "Run implementation/go-live-checklist.md"
+  ]
+}
