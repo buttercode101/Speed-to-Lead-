@@ -1,0 +1,9 @@
+{
+  "name": "[Client] - Document Intake Pipeline",
+  "version": "1.0",
+  "modules": [
+    {"order": 1, "app": "gmail", "action": "watch_emails", "filter": "has_attachment"},
+    {"order": 2, "app": "google_drive", "action": "upload_file", "path_template": "Client Name/{{formatDate(now; 'YYYY')}}/{{formatDate(now; 'MMMM')}}/Invoices/"},
+    {"order": 3, "app": "google_sheets", "action": "add_row", "sheet": "Incoming Documents", "defaults": {"Status": "Pending Extraction", "Source": "Gmail"}}
+  ]
+}
