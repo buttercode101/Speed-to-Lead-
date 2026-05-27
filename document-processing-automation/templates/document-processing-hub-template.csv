@@ -1,0 +1,8 @@
+Timestamp,Source,File Link,Vendor,Invoice No,Amount,VAT,Date,Category,Status,Notes
+,,,,,,,,,Pending Extraction,
+
+Exception Timestamp,Source,File Link,Exception Type,Reason,Status,Owner,Resolution Notes
+,,,,,Exception,,
+
+Archive Timestamp,Original File Link,Archive Path,Status,Processing Outcome,Processed By
+,,,,,
