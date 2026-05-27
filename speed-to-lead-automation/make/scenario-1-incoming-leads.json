@@ -1,0 +1,15 @@
+{
+  "name": "[Client] - Incoming Leads Processor",
+  "version": "1.0",
+  "description": "MVP flow: Google Form -> Sheets -> WhatsApp lead reply -> WhatsApp owner alert -> Sheet update",
+  "modules": [
+    {"order": 1, "app": "google_forms", "action": "watch_responses"},
+    {"order": 2, "app": "tools", "action": "set_variable", "variable": "lead_id", "value": "LD-{{formatDate(now; \"YYMMDD\")}}-{{random}}"},
+    {"order": 3, "app": "tools", "action": "normalize_phone", "rule": "strip_spaces_plus_and_replace_0_with_27"},
+    {"order": 4, "app": "google_sheets", "action": "add_row", "sheet": "Leads"},
+    {"order": 5, "app": "router", "action": "keyword_hot_lead_filter", "keywords": ["urgent", "today", "asap", "quote", "pricing", "ready", "install", "book now"]},
+    {"order": 6, "app": "whatsapp_cloud", "action": "send_message", "recipient": "lead"},
+    {"order": 7, "app": "whatsapp_cloud", "action": "send_message", "recipient": "owner"},
+    {"order": 8, "app": "google_sheets", "action": "update_row", "sheet": "Leads", "status": "CONTACTED"}
+  ]
+}
