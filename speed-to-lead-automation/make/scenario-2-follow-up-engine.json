@@ -1,0 +1,17 @@
+{
+  "name": "[Client] - Follow-up Engine",
+  "version": "1.0",
+  "description": "Weekday follow-up scheduler for unresolved leads",
+  "schedule": {
+    "days": ["monday", "tuesday", "wednesday", "thursday", "friday"],
+    "time": "09:00",
+    "timezone": "Africa/Johannesburg"
+  },
+  "modules": [
+    {"order": 1, "app": "scheduler", "action": "trigger"},
+    {"order": 2, "app": "google_sheets", "action": "search_rows", "query": "Status != WON AND Next Follow-up <= TODAY"},
+    {"order": 3, "app": "tools", "action": "iterator"},
+    {"order": 4, "app": "whatsapp_cloud", "action": "send_follow_up", "messages": {"day1": "Just checking if you saw our previous message...", "day3": "Would you still like a quote?", "day7": "We're closing your inquiry soon..."}},
+    {"order": 5, "app": "google_sheets", "action": "update_row", "fields": ["Last Contacted", "Next Follow-up", "Notes"]}
+  ]
+}

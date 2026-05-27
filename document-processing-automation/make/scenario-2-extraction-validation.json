@@ -1,0 +1,12 @@
+{
+  "name": "[Client] - Data Extraction & Validation",
+  "version": "1.0",
+  "modules": [
+    {"order": 1, "app": "google_sheets", "action": "search_rows", "query": "Status = Pending Extraction"},
+    {"order": 2, "app": "ocr", "action": "extract_text"},
+    {"order": 3, "app": "openai", "action": "structured_extraction", "output": "json"},
+    {"order": 4, "app": "router", "action": "validation", "rules": ["missing_vat", "duplicate_invoice", "amount_over_threshold"]},
+    {"order": 5, "app": "router", "action": "categorize_by_keywords", "source": "Chart of Accounts"},
+    {"order": 6, "app": "google_sheets", "action": "update_row", "sheet": "Incoming Documents"}
+  ]
+}
