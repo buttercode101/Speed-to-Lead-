@@ -1,0 +1,14 @@
+[Tenants]
+Tenant ID,Name,Phone,Email,Property Address,Monthly Rent,Lease End,Status,Deposit,Notes
+
+[Properties]
+Property ID,Address,Owner,Tenant Phone
+
+[Maintenance]
+Request ID,Tenant Phone,Issue,Date,Status,Photos,Resolution Notes
+
+[Rent Payments]
+Date,Tenant Phone,Amount Due,Paid Amount,Status,Payment Link
+
+[Conversation Log]
+Timestamp,Phone,Incoming Message,AI Reply,Intent,Outcome
