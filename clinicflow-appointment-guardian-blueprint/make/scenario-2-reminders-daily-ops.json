@@ -1,0 +1,20 @@
+{
+  "name": "[Client] - Automated Reminders + Daily Operations",
+  "version": "1.0",
+  "schedule": {
+    "type": "daily",
+    "time": "07:00",
+    "timezone": "Africa/Johannesburg"
+  },
+  "modules": [
+    {"order": 1, "app": "scheduler", "action": "trigger"},
+    {"order": 2, "app": "google_sheets", "action": "get_rows", "sheets": ["Appointments", "Billing"], "query": "next_3_days_and_overdue"},
+    {"order": 3, "app": "iterator", "action": "process_each_record"},
+    {"order": 4, "app": "openai", "action": "create_personalized_reminder"},
+    {"order": 5, "app": "whatsapp_business_cloud", "action": "send_reminder_message"},
+    {"order": 6, "app": "aggregator", "action": "calculate_daily_kpis"},
+    {"order": 7, "app": "openai", "action": "generate_owner_report"},
+    {"order": 8, "app": "whatsapp_business_cloud", "action": "send_owner_report"},
+    {"order": 9, "app": "google_sheets", "action": "add_row", "sheet": "Daily Reports"}
+  ]
+}

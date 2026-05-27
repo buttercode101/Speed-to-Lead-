@@ -1,0 +1,17 @@
+[Patients]
+Patient ID,Name,Phone,Email,Date of Birth,Medical Notes,Preferred Language,Status
+
+[Appointments]
+Appointment ID,Patient Phone,Date,Time,Service Type,Status (Booked / Confirmed / No-Show / Cancelled),Value (R),Reminder Sent
+
+[Leads]
+Timestamp,Name,Phone,Inquiry,Service Interested,Lead Score,Stage
+
+[Documents]
+Patient Phone,Document Type (Consent / Medical History / Quote),File Link,Status
+
+[Billing]
+Invoice ID,Patient Phone,Amount,Due Date,Status,Payment Link
+
+[Daily Reports]
+Date,Appointments Today,Revenue,No-Shows,New Leads,Notes

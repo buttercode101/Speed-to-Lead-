@@ -1,0 +1,10 @@
+{
+  "name": "[Client] - Reply Detection & Sequence Stopper",
+  "version": "1.0",
+  "modules": [
+    {"order": 1, "app": "whatsapp_cloud", "action": "watch_messages", "direction": "incoming"},
+    {"order": 2, "app": "google_sheets", "action": "search_rows", "query": "Phone = normalized_inbound_phone"},
+    {"order": 3, "app": "google_sheets", "action": "update_row", "set": {"Replied": "YES", "Sequence Active": "NO", "Last Reply Date": "now", "Follow-up Outcome": "Interested"}},
+    {"order": 4, "app": "whatsapp_cloud", "action": "send_message", "recipient": "owner", "template": "lead_replied_alert"}
+  ]
+}
