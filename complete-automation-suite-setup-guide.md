@@ -1,47 +1,90 @@
-# Complete Automation Suite Setup Guide (Beginner Edition)
+# Complete Automation Suite Setup Guide (Start to Finish)
 
-> If you can copy/paste and click buttons, you can deploy this.
-> This guide assumes **zero technical experience**.
+This guide walks you through **exactly** how to deploy the 3 systems in this repository:
 
----
+1. `speed-to-lead-automation`
+2. `follow-up-nurture-sequences`
+3. `document-processing-automation`
 
-## What You Are Building
-
-You are setting up 3 ready-to-sell automation systems:
-
-1. **Speed-to-Lead** (new lead gets instant WhatsApp reply)
-2. **Follow-up & Nurture** (automatic Day1/Day3/Day7 follow-ups)
-3. **Document Processing** (invoices/receipts intake, extraction, and alerts)
-
-Everything uses:
-- **Google Sheets** (your database)
-- **Make.com** (your automation builder)
-- **WhatsApp Business Cloud** (messaging)
-- **Google Forms/Gmail/Drive** (inputs)
+It is written for a non-technical operations/admin user and is intended to be followed in order.
 
 ---
 
-## Part A — 15-Minute Quick Start (Do This First)
+## 0) Before You Start (Prerequisites)
 
-### A1) Create a working folder in Google Drive
-1. Open Google Drive.
-2. Create folder: `Automation - Client Name`.
-3. Inside it create:
-   - `01 Leads`
-   - `02 Documents`
-   - `03 Archive`
+## Accounts you need
+1. Google account (for Sheets, Forms, Drive, Calendar, Gmail).
+2. Make.com account.
+3. Meta/WhatsApp Business Cloud API account (with verified sender).
+4. OpenAI API key (only required for document extraction phase and optional AI layers).
 
-### A2) Create your first Google Sheet
-1. Create a Google Sheet named: `Client Name - Lead Log`.
-2. Open this repo file: `speed-to-lead-automation/templates/leads-sheet-template.csv`.
-3. In Google Sheets: **File -> Import -> Upload** that CSV.
-4. Confirm row 1 has these headers (exact):
-   - Lead ID, Timestamp, Source, Full Name, Phone, Email, Service Interest, Message, Budget, Timeline, Lead Score, Hot Lead, Status, Assigned To, Last Contacted, Next Follow-up, Booking Link Sent, Outcome, Notes
+## Access you need from the client
+1. Owner/manager WhatsApp number for alerts.
+2. Business name, service list, and booking link.
+3. Access to client Google Workspace assets (or permission to create new ones).
+4. Approval threshold for document exceptions (example: R10,000).
 
-### A3) Create your intake form
-1. Open Google Forms.
-2. Create form: `Client Name - New Inquiry`.
-3. Add questions:
+## Folder assets in this repo
+- Speed-to-Lead blueprint: `speed-to-lead-automation/`.
+- Follow-up/Nurture blueprint: `follow-up-nurture-sequences/`.
+- Document processing blueprint: `document-processing-automation/`.
+
+---
+
+## 1) Global Environment Setup (One-Time)
+
+### Step 1.1 — Create Make connections
+In Make.com, create and test these connections:
+1. Google Sheets
+2. Google Forms
+3. Google Drive
+4. Gmail
+5. WhatsApp Business Cloud
+6. OpenAI (for document extraction only)
+
+**Success check:** each connection shows "Connected" in Make.
+
+### Step 1.2 — Standard naming convention
+Use this pattern everywhere:
+- Scenario name: `[Client] - <Scenario Name>`
+- Sheet name: `<Client> - Automation Hub`
+- Drive root folder: `<Client>/2026/`
+
+This avoids confusion when you scale to multiple clients.
+
+### Step 1.3 — Timezone standardization
+Set all scenarios to:
+- `Africa/Johannesburg`
+
+This keeps follow-up timings aligned with South African business hours.
+
+### Step 1.4 — Phone normalization rule
+Standardize all lead/customer numbers to E.164 SA format:
+- Input: `0821234567`
+- Output: `27821234567`
+
+Apply this rule in **every** scenario that matches or sends by phone.
+
+---
+
+## 2) System 1 Setup — Speed-to-Lead Automation
+
+Reference files:
+- `speed-to-lead-automation/README.md`
+- `speed-to-lead-automation/docs/make-scenarios.md`
+- `speed-to-lead-automation/templates/leads-sheet-template.csv`
+- `speed-to-lead-automation/templates/whatsapp-message-pack.md`
+
+### Step 2.1 — Create Google Sheet (Leads CRM)
+1. Create a new Google Sheet named: `<Client> - Lead Log`.
+2. Create tab `Leads`.
+3. Import columns from `templates/leads-sheet-template.csv`.
+4. Freeze row 1.
+5. Format timestamp columns (`Timestamp`, `Last Contacted`, `Next Follow-up`) as date-time.
+
+### Step 2.2 — Create Google Form intake
+1. Create Google Form: `<Client> - New Inquiry`.
+2. Add fields:
    - Full Name
    - Phone
    - Email
@@ -49,172 +92,60 @@ Everything uses:
    - Message
    - Budget
    - Timeline
-4. Submit one test entry.
+3. Submit one test response.
 
-### A4) Create Make.com account + connections
-In Make.com:
-1. Go to **Connections**.
-2. Add and authorize:
-   - Google Sheets
-   - Google Forms
-   - WhatsApp Business Cloud
-   - Google Drive
-   - Gmail
-   - OpenAI (optional until documents module)
+### Step 2.3 — Build Scenario 1 in Make
+Use module order from `docs/make-scenarios.md`:
+1. Google Forms: Watch Responses
+2. Tools: Set Lead ID (`LD-YYMMDD-random`)
+3. Text transform: normalize phone
+4. Google Sheets: Add row
+5. Router: hot keyword filter
+6. WhatsApp: send instant lead reply
+7. WhatsApp: send owner alert
+8. Google Sheets: update row (status/contacted/score)
 
-✅ You are ready to build.
+### Step 2.4 — Configure defaults
+For all new leads set:
+- `Status = NEW`
+- `Lead Score = 3`
+- `Hot Lead = NO`
+- `Booking Link Sent = YES`
 
----
+### Step 2.5 — Configure hot keyword route
+Use these keywords:
+- urgent, today, asap, quote, pricing, ready, install, book now
 
-## Part B — How to Use Make.com (Super Simple)
+If match:
+- score 8–10, hot lead YES.
+Else:
+- score 3–5, hot lead NO.
 
-## B1) What is a “Scenario”?
-A Scenario is a flow chart:
-- Trigger (something happens)
-- Actions (do steps)
+### Step 2.6 — Test end-to-end (required)
+Run 5 test submissions:
+1. normal lead
+2. hot keyword lead
+3. phone with spaces and plus
+4. missing optional email
+5. long message text
 
-Example:
-Google Form submitted -> save row -> send WhatsApp -> notify owner.
-
-## B2) Golden rules in Make
-1. Build **one scenario at a time**.
-2. Click **Run once** before turning ON.
-3. Map fields by clicking bubbles (don’t type random text).
-4. Name every module clearly.
-5. Keep timezone: `Africa/Johannesburg`.
-
-## B3) Copy-paste expression blocks (you will use these)
-
-### Lead ID
-```make
-LD-{{formatDate(now; "YYMMDD")}}-{{random}}
-```
-
-### Convert 0821234567 -> 27821234567
-(Use in a Set Variable step named `normalized_phone`)
-```make
-{{if(startsWith(replace(replace(trim(Phone);" ";"");"+";"");"0");concat("27";substring(replace(replace(trim(Phone);" ";"");"+";"");1));replace(replace(trim(Phone);" ";"");"+";""))}}
-```
-
-### Current timestamp
-```make
-{{now}}
-```
-
-### Day-based follow-up dates
-- +1 day
-```make
-{{addDays(now;1)}}
-```
-- +2 days
-```make
-{{addDays(now;2)}}
-```
-- +4 days
-```make
-{{addDays(now;4)}}
-```
-- +7 days
-```make
-{{addDays(now;7)}}
-```
+**Pass criteria:**
+- Row created every time.
+- Lead receives WhatsApp reply.
+- Owner receives alert.
+- Status becomes CONTACTED.
 
 ---
 
-## Part C — System 1: Speed-to-Lead (Exact Click-by-Click)
+## 3) System 2 Setup — Follow-up & Nurture Sequences
 
-Reference:
-- `speed-to-lead-automation/docs/make-scenarios.md`
-- `speed-to-lead-automation/templates/whatsapp-message-pack.md`
-
-## C1) Create Scenario in Make
-1. In Make, click **Create a new scenario**.
-2. Name it: `[Client] - Incoming Leads Processor`.
-
-## C2) Add Module 1 (Trigger)
-1. Click `+`.
-2. Search `Google Forms`.
-3. Choose **Watch Responses**.
-4. Connect your form `Client Name - New Inquiry`.
-5. Save.
-
-## C3) Add Module 2 (Lead ID)
-1. Add module `Tools -> Set variable`.
-2. Variable name: `lead_id`.
-3. Value (copy/paste):
-```make
-LD-{{formatDate(now; "YYMMDD")}}-{{random}}
-```
-4. Save.
-
-## C4) Add Module 3 (Phone Normalization)
-1. Add module `Tools -> Set variable`.
-2. Variable name: `normalized_phone`.
-3. Value (copy/paste formula from Part B3 phone block).
-4. Save.
-
-## C5) Add Module 4 (Add row to Leads sheet)
-1. Add `Google Sheets -> Add a Row`.
-2. Choose spreadsheet: `Client Name - Lead Log`.
-3. Sheet/tab: `Leads`.
-4. Map fields:
-   - Lead ID -> `lead_id`
-   - Timestamp -> `now`
-   - Full Name -> Form Full Name
-   - Phone -> `normalized_phone`
-   - Status -> `NEW`
-   - Lead Score -> `3`
-   - Hot Lead -> `NO`
-   - Booking Link Sent -> `YES`
-5. Save.
-
-## C6) Add Module 5 (Router = hot lead check)
-1. Add `Router`.
-2. Create route `HOT` filter.
-3. Filter condition on message text contains any:
-   - urgent, today, asap, quote, pricing, ready, install, book now
-4. Add second route `NORMAL` (no filter = fallback).
-
-## C7) Add Module 6 (WhatsApp to lead)
-1. On each route, add `WhatsApp Business Cloud -> Send Message`.
-2. Recipient phone = `normalized_phone`.
-3. Message: copy from `speed-to-lead-automation/templates/whatsapp-message-pack.md` (Instant Acknowledgment block).
-
-## C8) Add Module 7 (WhatsApp owner alert)
-1. Add second WhatsApp module after lead message.
-2. Recipient = owner number (hardcoded once).
-3. Message: use Owner Alert template.
-4. For HOT route, prepend `🔥 NEW HOT LEAD`.
-
-## C9) Add Module 8 (Update row status)
-1. Add `Google Sheets -> Update a Row`.
-2. Update same lead row:
-   - Status = `CONTACTED`
-   - Last Contacted = `{{now}}`
-   - Lead Score = `8` if HOT else `3`
-   - Hot Lead = `YES` if HOT else `NO`
-
-## C10) Test it
-1. Click **Run once**.
-2. Submit test form.
-3. Confirm:
-   - row inserted,
-   - lead got WhatsApp,
-   - owner got alert,
-   - row updated to CONTACTED.
-4. Turn Scenario **ON**.
-
----
-
-## Part D — System 2: Follow-up & Nurture (Copy/Paste Setup)
-
-References:
+Reference files:
 - `follow-up-nurture-sequences/docs/make-scenarios.md`
 - `follow-up-nurture-sequences/templates/leads-sheet-upgrade.csv`
 - `follow-up-nurture-sequences/templates/follow-up-message-pack.md`
 
-## D1) Add extra columns to Leads sheet
-Add these columns exactly:
+### Step 3.1 — Upgrade Leads sheet columns
+Add these columns to `Leads`:
 - Sequence Active
 - Sequence Stage
 - Follow-up Count
@@ -224,197 +155,197 @@ Add these columns exactly:
 - Last Follow-up Sent
 - Follow-up Outcome
 
-Default values for new leads:
+Initialize defaults for existing open leads:
 - Sequence Active = YES
 - Sequence Stage = Day1
 - Follow-up Count = 0
 - Replied = NO
 
-## D2) Create Scenario 2: `[Client] - Follow-up Engine`
+### Step 3.2 — Build Scenario 2 (Follow-up Engine)
+1. Scheduler module.
+2. Configure two weekday runs:
+   - 09:00
+   - 14:00
+3. Search rows filter:
+   - Sequence Active = YES
+   - Replied != YES
+   - Next Follow-up Date <= NOW
+4. Iterator.
+5. Router by stage (Day1 / Day3 / Day7 / Final).
+6. WhatsApp send follow-up.
+7. Update row:
+   - Follow-up Count +1
+   - Last Follow-up Sent = now
+   - Sequence Stage -> next
+   - Next Follow-up Date -> calculated
 
-### Module 1: Scheduler
-- Schedule 1: Weekdays 09:00
-- Schedule 2: Weekdays 14:00
-- Timezone: Africa/Johannesburg
+### Step 3.3 — Stage timing logic
+- Day1 -> +24 hours
+- Day3 -> +2 days
+- Day7 -> +4 days
+- Final -> +7 days (or close sequence based on your policy)
 
-### Module 2: Search rows
-Use filter logic:
-- Sequence Active = YES
-- Replied != YES
-- Next Follow-up Date <= now
+### Step 3.4 — Build Scenario 3 (Reply Detection Stopper)
+1. WhatsApp watch incoming messages.
+2. Normalize inbound phone.
+3. Search lead by phone.
+4. Update lead:
+   - Replied = YES
+   - Sequence Active = NO
+   - Last Reply Date = now
+5. Send owner alert with reply body.
 
-### Module 3: Iterator
-Process each result one by one.
-
-### Module 4: Router by stage
-Routes:
-- Day1
-- Day3
-- Day7
-- Final
-
-### Module 5: Send WhatsApp follow-up
-Copy messages from:
-`follow-up-nurture-sequences/templates/follow-up-message-pack.md`
-
-### Module 6: Update row after send
-- Follow-up Count = +1
-- Last Follow-up Sent = now
-- Sequence Stage = next value
-- Next Follow-up Date:
-  - Day1 -> `{{addDays(now;2)}}`
-  - Day3 -> `{{addDays(now;4)}}`
-  - Day7 -> `{{addDays(now;7)}}`
-  - Final -> Sequence Active = NO
-
-## D3) Create Scenario 3: `[Client] - Reply Detection & Sequence Stopper`
-
-### Module 1
-WhatsApp Business Cloud -> Watch incoming messages
-
-### Module 2
-Normalize sender phone (same formula as Part B3)
-
-### Module 3
-Search lead by phone in Leads sheet
-
-### Module 4
-Update row:
-- Replied = YES
-- Sequence Active = NO
-- Last Reply Date = now
-- Follow-up Outcome = Interested
-
-### Module 5
-Send owner alert:
-```
-🔥 LEAD REPLIED
-Name: {{name}}
-Phone: {{phone}}
-Reply: {{message}}
-Follow up ASAP.
-```
-
-### D4) Test logic
-- If lead replies: sequence must stop immediately.
-- If no reply: sequence continues until Final.
+### Step 3.5 — Validate stop behavior
+Test cases:
+1. lead replies after Day1 -> Day3 should not send.
+2. lead never replies -> receives full sequence.
+3. unknown inbound number -> route to review queue.
 
 ---
 
-## Part E — System 3: Document Processing (Beginner Mode)
+## 4) System 3 Setup — Document Processing Automation
 
-References:
+Reference files:
 - `document-processing-automation/docs/make-scenarios.md`
 - `document-processing-automation/templates/document-processing-hub-template.csv`
 - `document-processing-automation/templates/coa-template.csv`
 - `document-processing-automation/templates/approval-message-pack.md`
 
-## E1) Create Google Sheet `Client Name - Document Processing Hub`
-Tabs:
+### Step 4.1 — Create Document Processing Hub sheet
+Create `<Client> - Document Processing Hub` with tabs:
 1. Incoming Documents
 2. Exceptions
 3. Chart of Accounts
 4. Archive Log
 
-Import template CSV headers from the two template files.
+Load template headers from:
+- `document-processing-hub-template.csv`
+- `coa-template.csv`
 
-## E2) Scenario 1: `[Client] - Document Intake Pipeline`
-1. Trigger: Gmail Watch Emails (has attachments)
-2. Upload attachment to Drive folder `02 Documents`
-3. Add row to Incoming Documents:
-   - Source = Gmail
+### Step 4.2 — Create Drive folder structure
+Create folders:
+- `<Client>/2026/May/Invoices/`
+- `<Client>/Processed/`
+
+Use year/month hierarchy for scalability.
+
+### Step 4.3 — Build Scenario 1 (Intake)
+1. Trigger source (start with Gmail attachments).
+2. Filter file types: PDF/JPG/PNG/DOC.
+3. Upload to Drive intake folder.
+4. Add row in Incoming Documents with:
    - Status = Pending Extraction
-   - File Link = uploaded file URL
+   - Source = Gmail/WhatsApp/Drive
+   - File link
 
-## E3) Scenario 2: `[Client] - Data Extraction & Validation`
-1. Search rows where Status = Pending Extraction
-2. OCR extract text
-3. OpenAI parse to JSON (use prompt in docs)
-4. Validation router:
-   - Missing VAT -> Exceptions
-   - Duplicate invoice # -> Exceptions + alert
-   - Amount above threshold -> Approval path
-5. Categorize from Chart of Accounts keywords
-6. Update Incoming Documents row with structured values
+### Step 4.4 — Build Scenario 2 (Extraction & Validation)
+1. Search pending rows (`Status = Pending Extraction`).
+2. OCR extract text.
+3. OpenAI structured extraction (JSON).
+4. Validate rules:
+   - missing VAT -> exception
+   - duplicate invoice number -> exception
+   - amount > threshold -> approval route
+5. Categorize via keyword mapping from Chart of Accounts.
+6. Update incoming row with extracted fields + final status.
 
-## E4) Scenario 3: `[Client] - Exception & Approval Workflow`
-1. Search Exceptions rows
-2. Route by type
-3. Send WhatsApp message using templates:
-   - Approval Needed
-   - Duplicate Alert
-   - OCR Failure Alert
-4. Update exception status and notes
+### Step 4.5 — Build Scenario 3 (Exception & Approval)
+1. Search `Exceptions` rows with Status = Exception.
+2. Route by type: duplicate/missing data/unreadable/high value.
+3. Send owner/accountant WhatsApp using templates.
+4. Write back decision/action notes to Exceptions tab.
 
-## E5) Scenario 4: `[Client] - Archiving & Reporting`
-1. Move file to archive: `03 Archive/Processed/<Vendor>/<Year>/`
-2. Add archive log row
-3. Send daily summary WhatsApp to owner/accountant
-
----
-
-## Part F — “Plugin-Style” Deployment Order (Copy This Checklist)
-
-Use this exactly, top to bottom:
-
-1. [ ] Import/create Leads sheet from template
-2. [ ] Build Scenario: Incoming Leads Processor
-3. [ ] Test 5 sample leads
-4. [ ] Add follow-up columns
-5. [ ] Build Scenario: Follow-up Engine
-6. [ ] Build Scenario: Reply Detection Stopper
-7. [ ] Test reply-stop behavior
-8. [ ] Create Document Processing Hub sheet
-9. [ ] Build Scenario: Document Intake Pipeline
-10. [ ] Build Scenario: Extraction & Validation
-11. [ ] Build Scenario: Exception & Approval
-12. [ ] Build Scenario: Archiving & Reporting
-13. [ ] Run UAT with client live
-14. [ ] Turn all approved scenarios ON
+### Step 4.6 — Build Scenario 4 (Archiving & Reporting)
+1. Move processed files to `Processed/<Vendor>/<Year>/`.
+2. Add row in Archive Log.
+3. Aggregate daily metrics.
+4. Send daily summary to owner/accountant.
 
 ---
 
-## Part G — Troubleshooting (Most Common Problems)
+## 5) Production Hardening Checklist (All Systems)
 
-## Problem 1: WhatsApp not sending
-Check:
-- phone is in `27XXXXXXXXX`
-- WhatsApp connection token valid
-- sender is approved in Meta
+### Logging
+- Every action must update a Sheet row.
+- No silent failures.
 
-## Problem 2: Row not found during update
-Check:
-- you stored row ID when adding row
-- update module is using that same row ID
+### Error handling
+- Add fallback branch in each scenario:
+  - on error -> notify owner/admin with module name and error message.
 
-## Problem 3: Follow-ups sending to replied leads
-Check:
-- Scenario 3 is ON
-- Replied field is set to YES
-- Scenario 2 filter excludes Replied = YES
+### Rate/cost control
+- Avoid per-minute polling.
+- Keep to scheduled batches where possible.
+- Prevent duplicate lookups/searches.
 
-## Problem 4: OCR output messy
-Check:
-- file quality (blurred photo?)
-- use PDF where possible
-- run OCR before OpenAI structuring
+### Security
+- Store API keys in Make secure connections only.
+- Restrict sheet access to client stakeholders.
+
+### Change management
+- Version your scenario names: `v1`, `v1.1`.
+- Clone before major edits.
 
 ---
 
-## Part H — What to Hand Over to Client
+## 6) UAT Script (Client Acceptance Test)
 
-Give client:
-1. Google Sheet links
-2. Scenario names + what each does
-3. Owner alert number configured
-4. How to mark Won/Lost in Leads sheet
-5. What to do when invoice flagged
-6. Monthly support plan
+Run this in one session with the client:
+1. Submit new lead -> verify instant WhatsApp and owner alert.
+2. Advance clock or adjust dates -> verify Day1 follow-up.
+3. Reply from lead phone -> verify sequence stops and owner notified.
+4. Email an invoice attachment -> verify intake row created.
+5. Process pending docs -> verify extraction and validation.
+6. Trigger exception (missing VAT/duplicate) -> verify alert.
+7. Process success case -> verify archive path + summary entry.
+
+Client signs off only after all steps pass.
 
 ---
 
-## Final Note
+## 7) Recommended Rollout Plan (Per Client)
 
-Do not build extra complexity first.
-Get this basic system live, stable, and producing results.
-Then improve.
+Week 1:
+- Deploy Speed-to-Lead only.
+
+Week 2:
+- Enable Follow-up/Nurture + reply stopper.
+
+Week 3:
+- Deploy Document Processing intake + validation.
+
+Week 4:
+- Add optional AI polish and daily management summaries.
+
+This staggered approach reduces risk and support overhead.
+
+---
+
+## 8) Optional AI Layers (Only After Stability)
+
+Use AI for:
+- follow-up personalization
+- document structuring
+- daily summaries
+
+Do **not** use AI for:
+- core routing
+- approval decisions
+- deterministic status transitions
+
+Rule-first architecture stays cheaper and more reliable.
+
+---
+
+## 9) Final Handover Package
+
+Before go-live handover, provide client with:
+1. Scenario list + purpose.
+2. Google Sheet links.
+3. Field dictionary (what each status means).
+4. Error alert recipients.
+5. SLA expectations (response/ops windows).
+6. 1-page SOP: "What to do when a lead replies".
+7. 1-page SOP: "What to do when an invoice is flagged".
+
+This is what makes the automation operational, not just technical.
