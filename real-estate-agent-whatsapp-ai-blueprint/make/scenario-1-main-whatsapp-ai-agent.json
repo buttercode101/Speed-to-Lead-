@@ -1,0 +1,18 @@
+{
+  "name": "[Client] - Main WhatsApp AI Agent",
+  "version": "1.0",
+  "modules": [
+    {"order": 1, "app": "whatsapp_business_cloud", "action": "watch_incoming_messages"},
+    {"order": 2, "app": "tools", "action": "set_variable", "variable": "normalized_phone"},
+    {"order": 3, "app": "google_sheets", "action": "search_rows", "sheet": "Leads", "match": "Phone = normalized_phone"},
+    {"order": 4, "app": "google_sheets", "action": "search_rows", "sheet": "Conversations", "match": "Phone = normalized_phone"},
+    {"order": 5, "app": "tools", "action": "set_variable", "variable": "context_summary"},
+    {"order": 6, "app": "openai", "action": "create_chat_completion", "output": "intent_json"},
+    {"order": 7, "app": "router", "action": "intent_router", "paths": ["property_search", "booking_request", "faq_general", "human_handoff"]},
+    {"order": 8, "app": "google_sheets", "action": "search_rows", "sheet": "Listings", "condition": "property_search"},
+    {"order": 9, "app": "google_calendar", "action": "search_availability_or_create_event", "condition": "booking_request"},
+    {"order": 10, "app": "whatsapp_business_cloud", "action": "send_message_or_template"},
+    {"order": 11, "app": "google_sheets", "action": "add_or_update_rows", "targets": ["Leads", "Viewings", "Conversations"]},
+    {"order": 12, "app": "error_handler", "action": "notify_agent_with_context"}
+  ]
+}

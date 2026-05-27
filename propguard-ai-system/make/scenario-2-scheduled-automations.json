@@ -1,0 +1,20 @@
+{
+  "name": "[Client] - PropGuard Scheduled Automations",
+  "version": "1.0",
+  "schedule": {
+    "time": "08:00",
+    "days": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
+    "timezone": "Africa/Johannesburg"
+  },
+  "runs": [
+    {"name": "rent_reminders", "tiers": ["pre_due", "due", "overdue"]},
+    {"name": "maintenance_status_updates"},
+    {"name": "owner_reports", "frequencies": ["daily", "weekly"]},
+    {"name": "lead_followup_sequences", "stages": ["Day1", "Day3", "Day7"]},
+    {"name": "monthly_reactivation_campaign", "batch_mode": "small"}
+  ],
+  "logging": {
+    "target_tab": "Reports Log",
+    "required": true
+  }
+}

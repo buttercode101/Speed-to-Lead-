@@ -1,0 +1,14 @@
+{
+  "name": "[Client] - PropGuard AI Central Brain",
+  "version": "1.0",
+  "modules": [
+    {"order": 1, "app": "whatsapp_cloud", "action": "watch_incoming_messages"},
+    {"order": 2, "app": "tools", "action": "set_variable", "variable": "normalized_phone"},
+    {"order": 3, "app": "google_sheets", "action": "search_rows", "tabs": ["Tenants", "Owners", "Leads & Prospects", "Old Database"]},
+    {"order": 4, "app": "openai", "action": "chat_completion", "output": "json"},
+    {"order": 5, "app": "router", "action": "intent_router", "paths": ["rent_inquiry_or_payment", "maintenance_request", "lease_or_general_query", "new_lead", "reactivation_reply", "document_upload", "human_handoff"]},
+    {"order": 6, "app": "whatsapp_cloud", "action": "send_message", "recipient": "normalized_phone", "source": "reply_text"},
+    {"order": 7, "app": "google_sheets", "action": "update_relevant_tab", "source": "target_tab"},
+    {"order": 8, "app": "whatsapp_cloud", "action": "send_manager_alert", "condition": "handoff_required = true"}
+  ]
+}
