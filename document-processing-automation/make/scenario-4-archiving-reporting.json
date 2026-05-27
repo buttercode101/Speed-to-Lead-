@@ -1,0 +1,10 @@
+{
+  "name": "[Client] - Archiving & Reporting",
+  "version": "1.0",
+  "modules": [
+    {"order": 1, "app": "google_drive", "action": "move_file", "path_template": "Processed/{{vendor}}/{{formatDate(now; 'YYYY')}}/"},
+    {"order": 2, "app": "google_sheets", "action": "add_row", "sheet": "Archive Log"},
+    {"order": 3, "app": "google_sheets", "action": "aggregate_daily_metrics"},
+    {"order": 4, "app": "whatsapp_cloud", "action": "send_daily_summary", "recipient": "owner_or_accountant"}
+  ]
+}

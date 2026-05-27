@@ -1,0 +1,16 @@
+{
+  "name": "[Client] - WhatsApp AI Tenant Agent",
+  "version": "1.0",
+  "modules": [
+    {"order": 1, "app": "whatsapp_business_cloud", "action": "watch_incoming_messages"},
+    {"order": 2, "app": "tools", "action": "set_variable", "variable": "normalized_phone", "note": "Normalize South African phone number to 27XXXXXXXXX"},
+    {"order": 3, "app": "google_sheets", "action": "search_rows", "sheet": "Tenants", "match": "Phone = normalized_phone"},
+    {"order": 4, "app": "tools", "action": "set_variable", "variable": "tenant_context"},
+    {"order": 5, "app": "openai", "action": "create_chat_completion", "output": "intent_json"},
+    {"order": 6, "app": "router", "action": "route_by_intent", "routes": ["rent_related", "maintenance_request", "lease_general", "new_prospect", "complaint_escalation", "human_handoff"]},
+    {"order": 7, "app": "google_sheets", "action": "add_or_update_rows", "targets": ["Rent Payments", "Maintenance", "Conversation Log"]},
+    {"order": 8, "app": "whatsapp_business_cloud", "action": "send_message", "recipient": "normalized_phone"},
+    {"order": 9, "app": "whatsapp_business_cloud", "action": "send_message", "recipient": "manager", "condition": "escalation_required"},
+    {"order": 10, "app": "error_handler", "action": "notify_manager_and_log"}
+  ]
+}
