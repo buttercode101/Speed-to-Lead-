@@ -1,0 +1,26 @@
+[Properties]
+Property ID,Property Name,Address,Unit Count,Occupancy %,Manager,Owner ID,Notes
+
+[Tenants]
+Tenant ID,Full Name,Phone,Email,Property ID,Unit Number,Lease Start,Lease End,Rent Amount,Rent Due Date,Status
+
+[Rent & Payments]
+Record ID,Tenant ID,Period,Amount Due,Amount Paid,Balance,Due Date,Status,Payment Link,Last Reminder Date
+
+[Maintenance]
+Ticket ID,Tenant ID,Property ID,Category,Description,Photo Link,Priority,Status,Assigned To,Created At,Updated At
+
+[Owners]
+Owner ID,Owner Name,Phone,Email,Preferred Report Frequency,Properties,Status
+
+[Leads & Prospects]
+Lead ID,Timestamp,Source,Full Name,Phone,Lead Type,Interest,Status,Follow-up Stage,Next Follow-up
+
+[Old Database]
+Record ID,Type (Tenant/Landlord),Name,Phone,Last Interaction,Campaign Status,Last Sent Date,Outcome
+
+[Documents]
+Doc ID,Timestamp,Source,File Link,Document Type,Vendor/Tenant,Amount,VAT,Status,Notes
+
+[Reports Log]
+Report ID,Timestamp,Report Type,Recipient,Summary,Delivery Status
