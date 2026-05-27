@@ -1,0 +1,16 @@
+{
+  "name": "[Client] - WhatsApp AI Patient Agent",
+  "version": "1.0",
+  "modules": [
+    {"order": 1, "app": "whatsapp_business_cloud", "action": "watch_incoming_messages"},
+    {"order": 2, "app": "tools", "action": "set_variable", "variable": "normalized_phone"},
+    {"order": 3, "app": "google_sheets", "action": "search_rows", "sheet": "Patients", "match": "Phone = normalized_phone"},
+    {"order": 4, "app": "google_sheets", "action": "search_rows", "sheets": ["Appointments", "Billing"], "match": "Patient Phone = normalized_phone"},
+    {"order": 5, "app": "openai", "action": "create_chat_completion", "output": "intent_json"},
+    {"order": 6, "app": "router", "action": "intent_router", "paths": ["new_appointment", "reschedule_cancel", "medical_query_emergency", "billing_payment", "document_upload", "general_inquiry"]},
+    {"order": 7, "app": "google_calendar", "action": "check_or_create_appointment", "condition": "new_appointment_or_reschedule"},
+    {"order": 8, "app": "whatsapp_business_cloud", "action": "send_message_or_template"},
+    {"order": 9, "app": "google_sheets", "action": "add_or_update_rows", "targets": ["Patients", "Appointments", "Leads", "Billing", "Documents"]},
+    {"order": 10, "app": "error_handler", "action": "notify_receptionist_with_context"}
+  ]
+}

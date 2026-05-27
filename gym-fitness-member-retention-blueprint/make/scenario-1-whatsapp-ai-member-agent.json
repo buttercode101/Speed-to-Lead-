@@ -1,0 +1,16 @@
+{
+  "name": "[Client] - WhatsApp AI Member Agent",
+  "version": "1.0",
+  "modules": [
+    {"order": 1, "app": "whatsapp_business_cloud", "action": "watch_incoming_messages"},
+    {"order": 2, "app": "tools", "action": "set_variable", "variable": "normalized_phone"},
+    {"order": 3, "app": "google_sheets", "action": "search_rows", "sheets": ["Members", "Leads & Trials"], "match": "Phone = normalized_phone"},
+    {"order": 4, "app": "tools", "action": "set_variable", "variable": "context_summary"},
+    {"order": 5, "app": "openai", "action": "create_chat_completion", "output": "intent_json"},
+    {"order": 6, "app": "router", "action": "intent_router", "paths": ["book_class_or_trial", "payment_inquiry", "attendance_check", "membership_renewal", "facility_info", "complaint_feedback", "churned_reactivation_reply"]},
+    {"order": 7, "app": "google_calendar", "action": "check_or_create_booking", "condition": "book_class_or_trial"},
+    {"order": 8, "app": "whatsapp_business_cloud", "action": "send_message"},
+    {"order": 9, "app": "google_sheets", "action": "add_or_update_rows", "targets": ["Members", "Attendance", "Payments", "Leads & Trials", "Reports Log"]},
+    {"order": 10, "app": "error_handler", "action": "notify_manager_with_context"}
+  ]
+}

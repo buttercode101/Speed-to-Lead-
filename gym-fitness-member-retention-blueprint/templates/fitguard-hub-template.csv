@@ -1,0 +1,20 @@
+[Members]
+Member ID,Name,Phone,Email,Membership Type,Monthly Fee,Start Date,Expiry Date,Status (Active/Trial/Churned/Frozen),Last Visit,Total Visits,Lifetime Revenue,Notes
+
+[Attendance]
+Date,Member Phone,Session/Class Name,Check-in Time,Duration
+
+[Payments]
+Payment ID,Member Phone,Amount Due,Due Date,Paid Amount,Status,Payment Link,Failure Reason
+
+[Leads & Trials]
+Timestamp,Name,Phone,Source,Trial Date,Trial Status,Converted?
+
+[Reactivation Campaigns]
+Campaign Date,Segment,Messages Sent,Replies,Conversions,Revenue
+
+[Classes/Schedule]
+Class Name,Day,Time,Capacity,Trainer
+
+[Reports Log]
+Date,Report Type,Key Metrics,Sent To

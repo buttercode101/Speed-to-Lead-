@@ -1,0 +1,20 @@
+{
+  "name": "[Client] - Retention & Reporting Engine",
+  "version": "1.0",
+  "schedule": {
+    "timezone": "Africa/Johannesburg",
+    "runs": [
+      {"type": "daily", "time": "07:00"},
+      {"type": "weekly", "day": "monday", "time": "07:00"}
+    ]
+  },
+  "modules": [
+    {"order": 1, "app": "scheduler", "action": "trigger"},
+    {"order": 2, "app": "google_sheets", "action": "search_rows", "sheets": ["Payments", "Attendance", "Members"]},
+    {"order": 3, "app": "router", "action": "daily_weekly_router"},
+    {"order": 4, "app": "whatsapp_business_cloud", "action": "send_payment_or_noshow_messages"},
+    {"order": 5, "app": "openai", "action": "generate_reactivation_and_owner_report"},
+    {"order": 6, "app": "whatsapp_business_cloud", "action": "send_owner_report"},
+    {"order": 7, "app": "google_sheets", "action": "write_logs", "targets": ["Reactivation Campaigns", "Reports Log"]}
+  ]
+}
