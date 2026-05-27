@@ -1,0 +1,18 @@
+{
+  "name": "[Client] - Follow-up Engine",
+  "version": "2.0",
+  "schedule": {
+    "runs": [
+      {"days": ["monday", "tuesday", "wednesday", "thursday", "friday"], "time": "09:00", "timezone": "Africa/Johannesburg"},
+      {"days": ["monday", "tuesday", "wednesday", "thursday", "friday"], "time": "14:00", "timezone": "Africa/Johannesburg"}
+    ]
+  },
+  "modules": [
+    {"order": 1, "app": "scheduler", "action": "trigger"},
+    {"order": 2, "app": "google_sheets", "action": "search_rows", "query": "Sequence Active = YES AND Replied != YES AND Next Follow-up Date <= NOW"},
+    {"order": 3, "app": "tools", "action": "iterator"},
+    {"order": 4, "app": "router", "action": "route_by_sequence_stage", "stages": ["Day1", "Day3", "Day7", "Final"]},
+    {"order": 5, "app": "whatsapp_cloud", "action": "send_message", "recipient": "lead"},
+    {"order": 6, "app": "google_sheets", "action": "update_row", "fields": ["Follow-up Count", "Last Follow-up Sent", "Sequence Stage", "Next Follow-up Date"]}
+  ]
+}

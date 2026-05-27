@@ -1,0 +1,10 @@
+{
+  "name": "[Client] - Exception & Approval Workflow",
+  "version": "1.0",
+  "modules": [
+    {"order": 1, "app": "google_sheets", "action": "search_rows", "query": "Status = Exception"},
+    {"order": 2, "app": "router", "action": "route_by_exception_type", "types": ["duplicate", "missing_data", "unreadable", "high_value"]},
+    {"order": 3, "app": "whatsapp_cloud", "action": "send_approval_or_alert"},
+    {"order": 4, "app": "google_sheets", "action": "update_row", "sheet": "Exceptions"}
+  ]
+}
