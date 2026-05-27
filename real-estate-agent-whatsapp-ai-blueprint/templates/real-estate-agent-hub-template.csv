@@ -1,0 +1,14 @@
+[Leads]
+Timestamp,Lead ID,Name,Phone,Email,Inquiry Type (Buyer/Seller/Rental/Valuation),Budget,Location/Area,Property Type,Timeline,Lead Score,Status,Notes,Assigned Agent
+
+[Listings]
+Property ID,Title,Price,Location,Type,Bedrooms,Description,Image Links,Status (Available/Sold)
+
+[Viewings]
+Viewing ID,Lead ID,Property ID,Date/Time,Status,Notes
+
+[Conversations]
+Timestamp,Phone,Incoming Message,AI Response,Intent,Context
+
+[System Knowledge]
+Topic,Question,Answer,Disclaimer,POPIA Note

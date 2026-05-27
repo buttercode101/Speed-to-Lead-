@@ -1,0 +1,18 @@
+{
+  "name": "[Client] - Follow-up & Pipeline Maintenance",
+  "version": "1.0",
+  "schedule": {
+    "mode": "daily_or_every_3_days",
+    "time": "08:00",
+    "timezone": "Africa/Johannesburg"
+  },
+  "modules": [
+    {"order": 1, "app": "scheduler", "action": "trigger"},
+    {"order": 2, "app": "google_sheets", "action": "search_rows", "sheet": "Leads", "query": "Status not in WON/LOST and no recent contact"},
+    {"order": 3, "app": "router", "action": "followup_stage_router", "stages": ["Day2", "Day7", "Day14"]},
+    {"order": 4, "app": "openai", "action": "create_short_followup", "max_words": 120},
+    {"order": 5, "app": "whatsapp_business_cloud", "action": "send_message_or_template"},
+    {"order": 6, "app": "google_sheets", "action": "update_pipeline_fields", "sheet": "Leads"},
+    {"order": 7, "app": "whatsapp_business_cloud", "action": "send_bi_summary_to_agent", "optional": true}
+  ]
+}
