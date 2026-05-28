@@ -1,0 +1,130 @@
+{
+  "name": "[Client] - Client Onboarding Automation",
+  "version": "1.0",
+  "description": "Logs new onboarding form responses, creates client folders, sends welcome emails, starts checklist tasks, routes contract/payment steps, and sends follow-ups.",
+  "modules": [
+    {
+      "order": 1,
+      "app": "google_forms",
+      "action": "watch_new_responses",
+      "form": "Client Onboarding / Agreement Form"
+    },
+    {
+      "order": 2,
+      "app": "google_sheets",
+      "action": "add_row",
+      "sheet": "New Clients",
+      "defaults": {
+        "Onboarding Status": "New",
+        "Welcome Sent": "No",
+        "Payment Status": "Unpaid"
+      }
+    },
+    {
+      "order": 3,
+      "app": "google_drive",
+      "action": "create_folder",
+      "parent_folder": "Client Onboarding",
+      "name_template": "Client - {{Client Name}}"
+    },
+    {
+      "order": 4,
+      "app": "google_drive",
+      "action": "copy_files",
+      "source_folder": "Onboarding Template Assets",
+      "destination_folder": "{{created_folder_id}}"
+    },
+    {
+      "order": 5,
+      "app": "google_sheets",
+      "action": "update_row",
+      "sheet": "New Clients",
+      "fields": {
+        "Folder Link": "{{created_folder_web_url}}",
+        "Onboarding Status": "In Progress"
+      }
+    },
+    {
+      "order": 6,
+      "app": "openai",
+      "action": "create_chat_completion",
+      "prompt_template": "Personalized Welcome Email Prompt"
+    },
+    {
+      "order": 7,
+      "app": "gmail",
+      "action": "send_email",
+      "to": "{{Email}}",
+      "subject": "Welcome to {{business_name}} - next steps",
+      "body": "{{openai_email_body}}"
+    },
+    {
+      "order": 8,
+      "app": "google_sheets",
+      "action": "add_multiple_rows",
+      "sheet": "Onboarding Checklist",
+      "row_templates": [
+        "Confirm signed contract or agreement",
+        "Confirm invoice/payment status",
+        "Create and share client Drive folder",
+        "Book kickoff call",
+        "Collect required access or documents",
+        "Confirm service delivery owner",
+        "Mark onboarding complete"
+      ]
+    },
+    {
+      "order": 9,
+      "app": "router",
+      "action": "route_by_contract_payment_language",
+      "routes": [
+        "contract_reminder",
+        "payment_link_email",
+        "kickoff_calendar_or_booking_link",
+        "afrikaans_template_option",
+        "owner_notification"
+      ]
+    },
+    {
+      "order": 10,
+      "app": "tools",
+      "action": "sleep",
+      "duration": "3 days"
+    },
+    {
+      "order": 11,
+      "app": "openai",
+      "action": "create_chat_completion",
+      "prompt_template": "Day 3 Follow-Up Prompt"
+    },
+    {
+      "order": 12,
+      "app": "gmail",
+      "action": "send_email",
+      "to": "{{Email}}",
+      "subject": "Quick onboarding check-in",
+      "body": "{{day_3_email_body}}"
+    },
+    {
+      "order": 13,
+      "app": "tools",
+      "action": "sleep",
+      "duration": "4 days"
+    },
+    {
+      "order": 14,
+      "app": "gmail",
+      "action": "send_email_if_incomplete",
+      "to": "{{Email}}",
+      "subject": "Friendly reminder: remaining onboarding items",
+      "condition": "{{Onboarding Status}} != Complete"
+    }
+  ],
+  "error_handler": {
+    "app": "gmail",
+    "action": "send_email",
+    "to": "{{owner_email}}",
+    "subject": "Onboarding automation error - {{Client Name}}",
+    "body": "A module failed. Check Make.com execution history and the Reports tab."
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "name": "[Client] - Weekly Onboarding Status Report",
+  "version": "1.0",
+  "description": "Sends a weekly owner summary of active onboarding clients, blockers, overdue tasks, and recommended next actions.",
+  "modules": [
+    {
+      "order": 1,
+      "app": "scheduler",
+      "action": "run_weekly",
+      "day": "monday",
+      "time": "08:00"
+    },
+    {
+      "order": 2,
+      "app": "google_sheets",
+      "action": "search_rows",
+      "sheet": "New Clients",
+      "filter": "Onboarding Status != Complete"
+    },
+    {
+      "order": 3,
+      "app": "google_sheets",
+      "action": "search_rows",
+      "sheet": "Onboarding Checklist",
+      "filter": "Status != Complete AND Due Date < today"
+    },
+    {
+      "order": 4,
+      "app": "openai",
+      "action": "create_chat_completion",
+      "prompt_template": "Weekly Owner Report Prompt"
+    },
+    {
+      "order": 5,
+      "app": "gmail",
+      "action": "send_email",
+      "to": "{{owner_email}}",
+      "subject": "Weekly onboarding status report",
+      "body": "{{weekly_report_body}}"
+    },
+    {
+      "order": 6,
+      "app": "google_sheets",
+      "action": "add_row",
+      "sheet": "Reports",
+      "fields": {
+        "Report Date": "{{today}}",
+        "Open Tasks": "{{open_task_count}}",
+        "Overdue Tasks": "{{overdue_task_count}}",
+        "Notes": "{{weekly_report_summary}}"
+      }
+    }
+  ]
+}
