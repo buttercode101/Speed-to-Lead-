@@ -1,0 +1,14 @@
+{
+  "name": "[Client] - InvoiceFlow Daily Summary",
+  "version": "1.0",
+  "timezone": "Africa/Johannesburg",
+  "modules": [
+    {"order": 1, "app": "scheduler", "action": "run_daily", "time": "16:30", "days": "weekdays"},
+    {"order": 2, "app": "google_sheets", "action": "search_rows", "sheet": "Processed", "filter": "Timestamp is today"},
+    {"order": 3, "app": "google_sheets", "action": "search_rows", "sheet": "Exceptions", "filter": "Status != Resolved"},
+    {"order": 4, "app": "tools", "action": "aggregate", "metrics": ["processed_count", "total_amount_sum", "vat_amount_sum", "exception_count", "top_categories", "top_vendors"]},
+    {"order": 5, "app": "openai", "action": "create_chat_completion", "prompt": "Daily Summary Prompt", "output": "summary_text"},
+    {"order": 6, "app": "gmail", "action": "send_email", "subject": "InvoiceFlow Daily Summary - [Client] - {{today}}"},
+    {"order": 7, "app": "error_handler", "action": "notify_implementer"}
+  ]
+}
