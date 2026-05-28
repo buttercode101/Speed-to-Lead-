@@ -28,6 +28,7 @@ A production-ready, WhatsApp-first automation blueprint for South African real e
 - `docs/step-by-step-setup.md`
 - `docs/make-scenarios.md`
 - `docs/go-live-checklist.md`
+- `docs/modal-conversion-plan.md`
 - `templates/real-estate-agent-hub-template.csv`
 - `templates/system-prompt.md`
 - `templates/whatsapp-message-pack.md`

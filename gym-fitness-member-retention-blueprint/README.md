@@ -24,6 +24,7 @@ Automate onboarding, attendance follow-up, payment reminders, churn reduction, a
 - `docs/step-by-step-setup.md`
 - `docs/make-scenarios.md`
 - `docs/go-live-checklist.md`
+- `docs/modal-conversion-plan.md`
 - `templates/fitguard-hub-template.csv`
 - `templates/openai-prompts.md`
 - `templates/whatsapp-message-pack.md`

@@ -15,6 +15,7 @@ Automate follow-ups, stop sequences when leads reply, escalate hot replies to ow
   - `build-plan.md`
   - `make-scenarios.md`
   - `go-live-checklist.md`
+  - `modal-conversion-plan.md`
 - `templates/`
   - `leads-sheet-upgrade.csv`
   - `follow-up-message-pack.md`

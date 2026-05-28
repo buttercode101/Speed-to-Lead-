@@ -1,0 +1,20 @@
+{
+  "client_name": "Demo Accountants",
+  "timezone": "Africa/Johannesburg",
+  "google_sheet_id": "replace-with-client-sheet-id",
+  "drive_root_folder_id": "replace-with-client-drive-folder-id",
+  "invoice_gmail_query": "label:InvoiceFlow has:attachment (invoice OR receipt OR statement)",
+  "owner_email": "owner@example.com",
+  "channels": {
+    "email_enabled": true,
+    "whatsapp_enabled": false,
+    "ai_enabled": false,
+    "dry_run": true
+  },
+  "limits": {
+    "max_documents_per_batch": 25,
+    "max_ai_calls_per_day": 10,
+    "max_messages_per_day": 25,
+    "max_ocr_pages_per_batch": 100
+  }
+}

@@ -16,6 +16,7 @@ Automate document intake, extraction, validation, exception handling, and archiv
   - `build-plan.md`
   - `make-scenarios.md`
   - `go-live-checklist.md`
+  - `modal-conversion-plan.md`
 - `templates/`
   - `document-processing-hub-template.csv`
   - `coa-template.csv`

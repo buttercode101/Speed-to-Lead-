@@ -24,6 +24,7 @@ Reduce no-shows, improve booking speed, automate reminders, simplify admin, and 
 - `docs/step-by-step-setup.md`
 - `docs/make-scenarios.md`
 - `docs/go-live-checklist.md`
+- `docs/modal-conversion-plan.md`
 - `templates/clinicflow-hub-template.csv`
 - `templates/openai-prompts.md`
 - `templates/whatsapp-message-pack.md`

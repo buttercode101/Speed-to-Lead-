@@ -1,0 +1,15 @@
+[project]
+name = "modal-automation-runtime"
+version = "0.1.0"
+description = "Shared Modal runtime for South African SME automation blueprints"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+modal = ["modal>=0.73.82"]
+google = ["google-api-python-client>=2.0.0", "google-auth>=2.0.0"]
+test = ["pytest>=8.0.0"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
