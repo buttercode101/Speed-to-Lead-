@@ -1,0 +1,22 @@
+[New Clients]
+Timestamp,Client Name,Primary Contact,Phone,Email,Company Name,Service Package,Preferred Language,Contract Signed,Onboarding Status,Welcome Sent,Folder Link,Payment Status,Payment Link,Kickoff Date,Notes
+,,,,,,,,Pending,New,No,,Unpaid,,,
+
+[Onboarding Checklist]
+Client Email,Client Name,Task,Status,Due Date,Completed Date,Owner,Notes
+,,,Not Started,,,,
+
+[Welcome Templates]
+Sequence Day,Language,Email Subject,Content Template
+0,English,Welcome to {{business_name}},Hi {{client_name}}, welcome aboard. We are excited to start working with you.
+3,English,Checking in on your onboarding,Hi {{client_name}}, just checking in to see if you have any questions before our kickoff call.
+7,English,Final onboarding items,Hi {{client_name}}, this is a friendly reminder to complete any remaining onboarding items.
+0,Afrikaans,Welkom by {{business_name}},Hallo {{client_name}}, welkom. Ons sien uit daarna om saam met jou te werk.
+
+[Documents]
+Client Email,Document Type,File Link,Status,Requested Date,Received Date,Notes
+,,,Requested,,,,
+
+[Reports]
+Report Date,Onboarding Date,Client Name,Time Taken,Open Tasks,Overdue Tasks,Notes
+,,,,,,

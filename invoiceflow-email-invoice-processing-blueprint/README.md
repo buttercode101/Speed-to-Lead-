@@ -36,7 +36,6 @@ InvoiceFlow stops accountants, bookkeepers, property managers, and SME owners fr
 - `docs/step-by-step-setup.md`
 - `docs/make-scenarios.md`
 - `docs/go-live-checklist.md`
-- `docs/modal-deployment-guide.md`
 - `templates/invoiceflow-hub-template.csv`
 - `templates/openai-prompts.md`
 - `templates/client-pitch-and-roi.md`
