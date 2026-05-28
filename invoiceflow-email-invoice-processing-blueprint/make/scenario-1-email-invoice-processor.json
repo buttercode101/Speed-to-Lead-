@@ -1,0 +1,32 @@
+{
+  "name": "[Client] - Email Invoice Processor",
+  "version": "1.0",
+  "timezone": "Africa/Johannesburg",
+  "free_tier_mode": "daily_batch",
+  "modules": [
+    {"order": 1, "app": "gmail", "action": "watch_emails", "filter": "label:InvoiceFlow has:attachment (invoice OR tax invoice OR receipt OR statement)"},
+    {"order": 2, "app": "tools", "action": "iterator", "input": "email.attachments"},
+    {"order": 3, "app": "gmail", "action": "download_attachment"},
+    {"order": 4, "app": "google_drive", "action": "upload_file", "folder": "InvoiceFlow - [Client]/Incoming Attachments"},
+    {"order": 5, "app": "google_sheets", "action": "add_row", "sheet": "Incoming", "status": "Downloaded"},
+    {"order": 6, "app": "pdf_ocr_or_openai", "action": "extract_text", "output": "invoice_text"},
+    {"order": 7, "app": "openai", "action": "create_chat_completion", "prompt": "Main Extraction Prompt", "output": "invoice_json"},
+    {"order": 8, "app": "google_sheets", "action": "search_rows", "sheet": "Processed", "purpose": "duplicate_check"},
+    {"order": 9, "app": "google_sheets", "action": "search_rows", "sheet": "Chart of Accounts", "purpose": "keyword_category_match"},
+    {"order": 10, "app": "router", "action": "data_quality_router", "paths": ["clean_processed_path", "exception_path"]},
+    {"order": 11, "app": "google_sheets", "action": "add_row", "sheet": "Processed", "condition": "clean_processed_path"},
+    {"order": 12, "app": "google_drive", "action": "move_file", "folder": "InvoiceFlow - [Client]/Archive/YYYY/MM - Month", "condition": "clean_processed_path"},
+    {"order": 13, "app": "google_sheets", "action": "update_row", "sheet": "Incoming", "status": "Archived", "condition": "clean_processed_path"},
+    {"order": 14, "app": "google_sheets", "action": "add_row", "sheet": "Exceptions", "condition": "exception_path"},
+    {"order": 15, "app": "google_drive", "action": "move_file", "folder": "InvoiceFlow - [Client]/Exceptions", "condition": "exception_path"},
+    {"order": 16, "app": "gmail", "action": "send_email", "template": "exception_alert", "condition": "exception_path"},
+    {"order": 17, "app": "google_sheets", "action": "update_row", "sheet": "Incoming", "status": "Exception", "condition": "exception_path"},
+    {"order": 18, "app": "error_handler", "action": "notify_implementer_and_owner"}
+  ],
+  "validation_rules": {
+    "vat_rate": 0.15,
+    "amount_tolerance_zar": 1.0,
+    "required_fields": ["vendor", "invoice_date", "total_amount"],
+    "duplicate_keys": ["vendor", "invoice_number", "total_amount"]
+  }
+}

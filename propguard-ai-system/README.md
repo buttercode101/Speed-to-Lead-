@@ -41,6 +41,7 @@ Use one Google Sheet: `PropGuard Master Hub` with tabs:
 - `docs/step-by-step-setup.md`
 - `docs/make-scenarios.md`
 - `docs/go-live-checklist.md`
+- `docs/modal-conversion-plan.md`
 - `templates/propguard-master-hub-template.csv`
 - `templates/whatsapp-message-pack.md`
 - `templates/openai-prompts.md`

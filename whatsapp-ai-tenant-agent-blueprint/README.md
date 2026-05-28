@@ -25,6 +25,7 @@ A 24/7 WhatsApp-first AI assistant for tenants and landlords that handles:
 - `docs/step-by-step-setup.md`
 - `docs/make-scenario-spec.md`
 - `docs/go-live-checklist.md`
+- `docs/modal-conversion-plan.md`
 - `templates/google-sheets-tabs-template.csv`
 - `templates/system-prompt.md`
 - `templates/whatsapp-reply-pack.md`

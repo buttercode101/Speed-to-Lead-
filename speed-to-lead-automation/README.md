@@ -10,6 +10,7 @@ This project implements a **production-ready V1** for South African SMEs:
   - `build-plan.md` – phased implementation plan.
   - `make-scenarios.md` – exact module-by-module Make setup.
   - `go-live-checklist.md` – launch checks.
+  - `modal-conversion-plan.md` – Python/Modal rebuild plan with free and client-paid modes.
 - `templates/`
   - `leads-sheet-template.csv` – exact column schema for the Leads sheet.
   - `whatsapp-message-pack.md` – copy/paste messages for instant reply + follow-ups.

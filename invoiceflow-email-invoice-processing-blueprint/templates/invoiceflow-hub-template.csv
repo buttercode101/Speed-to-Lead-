@@ -1,0 +1,22 @@
+Incoming,,,,,,
+Timestamp,Email From,Subject,Attachment Name,File Link,Status,Processed Date
+,,,,,New,
+
+Processed,,,,,,,,,,,,
+Timestamp,Vendor,Invoice Number,Invoice Date,Due Date,Amount ex VAT,VAT Amount,Total,Category,Notes,Xero/Sage Ref,Archive Link
+,,,,,,0,0,0,,,,
+
+Chart of Accounts,,
+Category Name,Keywords,Account Code
+Rent & Utilities,"rent, electricity, water, rates, levy, municipal",5000
+Office Supplies,"stationery, paper, printer, ink, office",5100
+Repairs & Maintenance,"repair, maintenance, plumber, electrician, handyman",5200
+Inventory / Stock,"stock, inventory, wholesale, supplier, goods",5300
+Professional Fees,"accounting, legal, consulting, audit, bookkeeping",5400
+Marketing,"facebook, google ads, flyer, marketing, design",5500
+Travel & Fuel,"fuel, petrol, diesel, uber, travel, parking",5600
+Other,"unclear, other, miscellaneous",5999
+
+Exceptions,,,,,
+Timestamp,File Link,Reason,Suggested Fix,Owner Notes,Status
+,,,,,Open
